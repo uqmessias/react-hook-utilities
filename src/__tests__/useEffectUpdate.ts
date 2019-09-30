@@ -6,10 +6,13 @@ const deps = [1, 2, 3];
 
 const hook = async ({ dependencies, cleanup }: any) =>
   new Promise<any>(resolve => {
-    useEffectUpdate(oldState => {
-      resolve(oldState);
-      return cleanup;
-    }, dependencies);
+    useEffectUpdate(
+      oldState => {
+        resolve(oldState);
+        return cleanup;
+      },
+      [dependencies, resolve], // eslint-disable-line @react-hook-utilities/exhaustive-deps
+    );
   });
 
 it('receives empty array as old state', () => {
@@ -29,7 +32,7 @@ it('receives state updates', async () => {
 
   rerender({ dependencies: [4, 5, 6] });
 
-  const value = await result.current;
+  const [value] = await result.current;
   expect(value).toBe(deps);
 });
 

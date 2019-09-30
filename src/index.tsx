@@ -18,7 +18,7 @@ export const useAsyncEffect = (
 ) => {
   useEffect(() => {
     effect();
-  }, dependencies);
+  }, [dependencies, effect]);
 };
 
 /**
@@ -33,7 +33,7 @@ export const useAsyncLayoutEffect = (
 ) => {
   useLayoutEffect(() => {
     effect();
-  }, dependencies);
+  }, [dependencies, effect]);
 };
 
 /**
@@ -56,21 +56,22 @@ export const useWorker = <TArgs extends readonly any[], TRet>(
 } => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | undefined>(undefined);
-  const callback = useCallback(async (...args: TArgs): Promise<
-    TRet | undefined
-  > => {
-    try {
-      setIsLoading(true);
-      const result = await worker(...args);
-      setIsLoading(false);
-      setError(undefined);
+  const callback = useCallback(
+    async (...args: TArgs): Promise<TRet | undefined> => {
+      try {
+        setIsLoading(true);
+        const result = await worker(...args);
+        setIsLoading(false);
+        setError(undefined);
 
-      return result;
-    } catch (e) {
-      setIsLoading(false);
-      setError(e);
-    }
-  }, dependencies);
+        return result;
+      } catch (e) {
+        setIsLoading(false);
+        setError(e);
+      }
+    },
+    [dependencies, worker], // eslint-disable-line @react-hook-utilities/exhaustive-deps,react-hooks/exhaustive-deps
+  );
 
   return { callback, error, isLoading, setError, setIsLoading };
 };
@@ -92,7 +93,7 @@ export const useEffectUpdate = <Dependencies extends readonly any[]>(
     } finally {
       oldState.current = dependencies;
     }
-  }, dependencies);
+  }, [dependencies, effect]);
 };
 
 /**
@@ -105,12 +106,13 @@ export const useEffectUpdate = <Dependencies extends readonly any[]>(
  */
 export const useConditionalEffect = <Dependencies extends readonly any[]>(
   evalCondition: (oldState: Dependencies) => boolean,
-  effect: () => (() => void) | void,
+  effect: () => void | (() => void),
   dependencies: Dependencies,
 ) => {
   useEffectUpdate(
-    oldState => (evalCondition(oldState) ? effect() : undefined),
-    dependencies,
+    ([oldState]: [Dependencies, typeof effect, typeof evalCondition]) =>
+      evalCondition(oldState || []) ? effect() : undefined,
+    [dependencies, effect, evalCondition], // eslint-disable-line @react-hook-utilities/exhaustive-deps,react-hooks/exhaustive-deps
   );
 };
 
@@ -127,7 +129,7 @@ export const useDidMount = (
     if (typeof result === 'function') {
       return result;
     }
-  }, []);
+  }, [effect]);
 };
 
 /**
@@ -140,6 +142,6 @@ export const useDidUnmount = (effect: () => void | Promise<void>) => {
     () => () => {
       effect();
     },
-    [],
+    [effect],
   );
 };
