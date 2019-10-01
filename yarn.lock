@@ -459,7 +459,7 @@
     rimraf "^2.5.2"
 
 "@react-hook-utilities/eslint-plugin@./eslint-plugin":
-  version "1.0.0"
+  version "0.1.0"
 
 "@testing-library/react-hooks@^2.0.1":
   version "2.0.1"
@@ -4765,6 +4765,11 @@ typedoc-default-themes@^0.6.0:
     jquery "^3.4.1"
     lunr "^2.3.6"
     underscore "^1.9.1"
+
+typedoc-plugin-markdown-pages@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown-pages/-/typedoc-plugin-markdown-pages-0.3.0.tgz#17f0f9ff3aa312e9ed142eb15ea216ea95d5fb5f"
+  integrity sha512-QVWs6eL0BEOiRgJm6wRRgE8kESFv85HlefLv14ZbMM2VQ1HqErVeT9ukbhkYMznsD/juAsX3Xc5M+Ju7/ZDq4Q==
 
 typedoc@^0.15.0:
   version "0.15.0"
