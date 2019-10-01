@@ -119,7 +119,21 @@ useDidUnmount(async () => {
 
 # Typescript
 
-react-hook-utilities sees Typescript is a first-class citizen. The library is built for and around Typescript and you'll get bonus points for using it. Nonetheless, pure JavaScript files are also available if you're _that_ guy.
+**react-hook-utilities** sees Typescript is a first-class citizen. The library is built for and around Typescript and you'll get bonus points for using it. Nonetheless, pure JavaScript files are also available if you're _that_ guy.
+
+# ESLint
+
+If you're using ESLint and don't want to lose your errors and warnings regarding dependencies, **react-hook-utilities** comes packaged with an [ESLint plugin](eslint-plugin/README.md) to lint it's own hooks. It is recommended to install the plugin as a local dependency:
+
+```sh
+$ yarn add -D ./node_modules/react-hook-utilities/eslint-plugin
+```
+
+We recommend you read the [full documentation](eslint-plugin/README.md) on how to use the ESLint plugin
+
+# Documentation
+
+The documentation is available at: https://fjcaetano.github.com/react-hook-utilities
 
 [1]: https://github.com/fjcaetano/react-hook-utilities/workflows/Node%20CI/badge.svg
 [2]: https://codecov.io/gh/fjcaetano/react-hook-utilities/branch/master/graph/badge.svg
