@@ -6,22 +6,20 @@
  *
  * Original Source: https://github.com/facebook/react/blob/9e64bf18e11828d6b4c0363bff5ed2eca1ccd838/packages/eslint-plugin-react-hooks/__tests__/ESLintRuleExhaustiveDeps-test.js
  */
-
 'use strict';
 
 const ESLintTester = require('eslint').RuleTester;
-const ReactHooksESLintPlugin = require('@react-hook-utilities/eslint-plugin');
-const ReactHooksESLintRule = ReactHooksESLintPlugin.rules['exhaustive-deps'];
 
+const ReactHooksESLintPlugin = require('..');
+
+const ReactHooksESLintRule = ReactHooksESLintPlugin.rules['exhaustive-deps'];
 ESLintTester.setDefaultConfig({
   parser: require.resolve('babel-eslint'),
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module',
   },
-});
-
-// ***************************************************
+}); // ***************************************************
 // For easier local testing, you can add to any case:
 // {
 //   skip: true,
@@ -1034,8 +1032,7 @@ const tests = {
           });
         }
       `,
-    },
-    // Ignore Generic Type Variables for arrow functions
+    }, // Ignore Generic Type Variables for arrow functions
     {
       code: `
         function Example({ prop }) {
@@ -1044,8 +1041,7 @@ const tests = {
           }, [prop]);
         }
       `,
-    },
-    // Ignore arguments keyword for arrow functions.
+    }, // Ignore arguments keyword for arrow functions.
     {
       code: `
         function Example() {
@@ -2849,18 +2845,15 @@ const tests = {
         `Assignments to the 'value2' variable from inside React Hook useAsyncEffect ` +
           `will be lost after each render. To preserve the value over time, ` +
           `store it in a useRef Hook and keep the mutable value in the '.current' property. ` +
-          `Otherwise, you can move this variable directly inside useAsyncEffect.`,
-        // value
+          `Otherwise, you can move this variable directly inside useAsyncEffect.`, // value
         `Assignments to the 'value' variable from inside React Hook useAsyncEffect ` +
           `will be lost after each render. To preserve the value over time, ` +
           `store it in a useRef Hook and keep the mutable value in the '.current' property. ` +
-          `Otherwise, you can move this variable directly inside useAsyncEffect.`,
-        // value4
+          `Otherwise, you can move this variable directly inside useAsyncEffect.`, // value4
         `Assignments to the 'value4' variable from inside React Hook useAsyncEffect ` +
           `will be lost after each render. To preserve the value over time, ` +
           `store it in a useRef Hook and keep the mutable value in the '.current' property. ` +
-          `Otherwise, you can move this variable directly inside useAsyncEffect.`,
-        // asyncValue
+          `Otherwise, you can move this variable directly inside useAsyncEffect.`, // asyncValue
         `Assignments to the 'asyncValue' variable from inside React Hook useAsyncEffect ` +
           `will be lost after each render. To preserve the value over time, ` +
           `store it in a useRef Hook and keep the mutable value in the '.current' property. ` +
@@ -2912,13 +2905,11 @@ const tests = {
         `Assignments to the 'value' variable from inside React Hook useAsyncEffect ` +
           `will be lost after each render. To preserve the value over time, ` +
           `store it in a useRef Hook and keep the mutable value in the '.current' property. ` +
-          `Otherwise, you can move this variable directly inside useAsyncEffect.`,
-        // value2
+          `Otherwise, you can move this variable directly inside useAsyncEffect.`, // value2
         `Assignments to the 'value2' variable from inside React Hook useAsyncEffect ` +
           `will be lost after each render. To preserve the value over time, ` +
           `store it in a useRef Hook and keep the mutable value in the '.current' property. ` +
-          `Otherwise, you can move this variable directly inside useAsyncEffect.`,
-        // asyncValue
+          `Otherwise, you can move this variable directly inside useAsyncEffect.`, // asyncValue
         `Assignments to the 'asyncValue' variable from inside React Hook useAsyncEffect ` +
           `will be lost after each render. To preserve the value over time, ` +
           `store it in a useRef Hook and keep the mutable value in the '.current' property. ` +
@@ -4078,9 +4069,8 @@ const tests = {
       ],
     },
   ],
-};
+}; // For easier local testing
 
-// For easier local testing
 if (!process.env.CI) {
   let only = [];
   let skipped = [];
@@ -4089,23 +4079,27 @@ if (!process.env.CI) {
       delete t.skip;
       skipped.push(t);
     }
+
     if (t.only) {
       delete t.only;
       only.push(t);
-    }
-    // if (!t.options) {
+    } // if (!t.options) {
     //   t.options = [{ additionalHooks: 'useAsyncLayoutEffect' }];
     // }
   });
+
   const predicate = t => {
     if (only.length > 0) {
       return only.indexOf(t) !== -1;
     }
+
     if (skipped.length > 0) {
       return skipped.indexOf(t) === -1;
     }
+
     return true;
   };
+
   tests.valid = tests.valid.filter(predicate);
   tests.invalid = tests.invalid.filter(predicate);
 }
